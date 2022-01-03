@@ -5,12 +5,13 @@ RUN apk add git
 COPY . /opt/womginx
 
 WORKDIR /opt/womginx
-# for whatever reason, heroku doesn't copy the .git folder
+# for whatever reason, heroku doesn't copy the .git folder and the .gitmodules file, so we're
+# approaching this assuming they don't exist
 RUN git init
-RUN git submodule update --init
+RUN cd public/ && rm -rf wombat && git submodule add https://github.com/webrecorder/wombat
 
 WORKDIR /opt/womginx/public/wombat
-RUN npm install && npm run build-prod
+RUN npm install --legacy-peer-deps && npm run build-prod
 
 # modify nginx.conf
 WORKDIR /opt/womginx

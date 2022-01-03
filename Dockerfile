@@ -44,11 +44,7 @@ RUN sed -i '1idaemon off;' nginx.conf
 
 FROM nginx:stable-alpine
 
-# default environment variables in case a normal user doesn't specify it
-ENV PORT=80
-# set SAFE_BROWSING to any value to enable it
-#ENV SAFE_BROWSING=1
-
+# environment variables: PORT and SAFE_BROWSING. set SAFE_BROWSING to any value to enable it
 
 COPY --from=builder /opt/womginx /opt/womginx
 RUN cp /opt/womginx/nginx.conf /etc/nginx/nginx.conf
